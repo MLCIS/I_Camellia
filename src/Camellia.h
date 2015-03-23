@@ -5,11 +5,11 @@
   #define _CAMELLIA 		OK
   #define BLOCK_LEN 		16
 
-  typedef struct block {
+  typedef struct Block {
 	Bool 		end;
 	Bool 		start;
   	Uchar 		content[BLOCK_LEN];
-	Uchar 	* 	next;
+	Block 	* 	next;
   }Block;
 
 
