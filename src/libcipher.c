@@ -1,5 +1,9 @@
 #include "CIPHER.h"
 
+/*
+ * Object oriented functions 
+ * these functions is very important for using later
+ */
 void *
 new (void * template , size_t len ){
     //printf("%d count : %d \n" , sizeof(template),len);
@@ -8,7 +12,17 @@ new (void * template , size_t len ){
     return memset(template,0xff ,  len) ;
 }
 
+Bool
+del (void * template){
+    free(template);
+    return OK;
+}
 
+int
+_i_char(Uchar * v){
+    printf("%x ",*v);
+    return OK;
+}
 
 Bool 
 LEFT_SHIFT (Uchar * data){
@@ -18,6 +32,18 @@ LEFT_SHIFT (Uchar * data){
     * data  &=  BYTE_LOCK;
     return if_first_is_1;
 }
+
+Bool
+LEFT_SHIFT_STREAM( Stream  data){
+    size_t count = JUDGE(data);
+    each(data,(lambda) _i_char ,count , UCHAR);
+    each(data,(lambda) LEFT_SHIFT , count, UCHAR);
+    each(data,(lambda) _i_char ,count , UCHAR);
+    return count;
+} 
+
+    
+
 
 Bool
 MOD_ADD(Stream data, Stream const_arg){
@@ -30,7 +56,7 @@ MOD_ADD(Stream data, Stream const_arg){
     Uchar * now_point = data;
 //    LOG(*now_point,"before mod add ");
     if (const_arg_len != data_len ){
-	//printf("eror exit ! \n");
+        printf("eror exit ! \n");
         return false;
     }
     //printf("data len : %d\n",data_len);
@@ -46,7 +72,7 @@ LOG(Uchar *  data ,char * str){
     for(;* data ; data ++){
     	printf("%x ",*data);
     }
-    printf("\t|\t%s\n",str);
+    printf("\t\n");
     return OK;
 }
 
