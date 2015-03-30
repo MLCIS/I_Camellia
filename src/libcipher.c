@@ -85,3 +85,15 @@ Stream
 String2Stream (String argv){
     return (Stream ) argv;
 }
+
+Bool
+copy_stream(Stream dst_data, Stream res_data,int len){
+    int count ;
+    for(count=0;count<len; count++){
+        dst_data[count] = res_data[count];
+    }
+    if (count +1 == len){
+        return true;
+    }
+    return false;
+}

@@ -22,7 +22,7 @@
   typedef unsigned int  Uint;
   typedef char * String ;
   typedef void * (*lambda )(void *) ;
-  typedef void * (*lambdaRes) (void *, void *);
+  typedef void * (*lambda_2) (void *, void *);
 
  /*
   * func declare  area
@@ -53,7 +53,7 @@ size_t
 each(void * ,lambda callback ,size_t end , size_t TYPE); 
 
 size_t
-each_result(void * ,lambdaRes callback ,size_t end , size_t TYPE, void * result);
+each_result(void * ,lambda_2 callback ,size_t end , size_t TYPE, void * result);
 
 Bool
 MOD_ADD(Stream data, Stream const_arg);
@@ -70,5 +70,8 @@ n_DSR (Stream  data , Stream constant_para , size_t  (* judge )(Stream) );
 
 Stream
 LEFT_SHIFT_CYCLE_STREAM (Stream data );
+
+Bool
+copy_stream(Stream dst_data, Stream res_data,int len);
 
 #endif
