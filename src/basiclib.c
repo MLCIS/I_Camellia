@@ -8,8 +8,9 @@
 Stream
 __extend_stream(Stream stream){
     int private_len = JUDGE(stream);
+    // printf("%d\n", private_len);
 
-    Stream extended_stream = (Stream) new ( extended_stream ,countBlockFromStream(stream) * BLOCK_128_LEN);
+    Stream extended_stream = (Stream) new ( extended_stream ,countBlockFromStream(stream) * BLOCK_128_LEN );
 
     memmove(extended_stream,stream ,private_len);
     
@@ -25,6 +26,19 @@ init_Block(Block * b){
     b->size   =    0;   
     b->next   =    NULL;  
     b->block_byte_len = BLOCK_128_LEN; 
+
+    return b;
+}
+
+Block *
+init_Block_LEN(Block * b,int LEN){
+    b = (Block * ) malloc(sizeof(Block)); 
+    b->end    =    false;
+    b->start  =    false;
+    b->if_eva =    false;
+    b->size   =    0;   
+    b->next   =    NULL;  
+    b->block_byte_len = LEN; 
 
     return b;
 }
@@ -159,6 +173,21 @@ block_log(Block * block){
 }
 
 Bool
+__eva_BLOCK(Block * block){
+    
+
+    
+    if(block->if_eva == true){
+        // printf("\n\n%d\n",block->id );
+        block->content[block->block_byte_len-1] += 0x1;
+    }else{
+        return false;
+    }
+    block-> if_eva = false;        
+    return true;
+}
+
+Bool
 LEFT_SHEFT_BLOCK(Block * block){
     Uchar tmp = block->content[0];
     if ( (tmp >>7 )==1){
@@ -166,22 +195,10 @@ LEFT_SHEFT_BLOCK(Block * block){
     }
 
     LEFT_SHIFT_CYCLE_STREAM(block->content);
+    __eva_BLOCK(block);
     return OK;
 }
-Bool
-__eva_BLOCK(Block * block){
-    if (block->next != NULL){
-        block = block->next;
-        
-        if(block->if_eva == true){
-            // printf("\n\n%d\n",block->id );
-            block->before->content[15] += 0x1;
-        }        
-    }
-    
-    
-    return true;
-}
+
 
 Block*
 last(Block * block){
@@ -197,24 +214,44 @@ first(Block * block){
     return block;
 }
 
-Bool
-LEFT_SHEFT_BLOCK_CYCLE(Block * block){
-    each_Block(block,(lambda) LEFT_SHEFT_BLOCK);
-    each_Block(block,(lambda) __eva_BLOCK);
+// Bool
+// LEFT_SHEFT_BLOCK_CYCLE(Block * block){
+//     each_Block(block,(lambda) LEFT_SHEFT_BLOCK);
+//     each_Block(block,(lambda) __eva_BLOCK);
 
 
-    block = last(block);
+//     block = last(block);
 
-    if (first(block)->if_eva == true){
-        last(block)->content[block->block_byte_len] += 0x1;    
-    }
+//     if (first(block)->if_eva == true){
+//         last(block)->content[block->block_byte_len] += 0x1;    
+//     }
     
-    return true; 
-}
+//     return true; 
+// }
 
 Bool
 copy_Block(Block * des_block,Block * res_block){
     Bool res = copy_stream(des_block->content ,res_block->content,res_block->block_byte_len);
+    Block  * new_b ;
+    Block  * left_block;
+    Block * right_block;
+    if (res_block->next){
+        new_b = init_Block(new_b);
+        copy_Block(new_b,res_block->next);
+        des_block->next = new_b;
+
+    }
+    if (res_block->left_block){
+        left_block = init_Block_LEN(left_block,BLOCK_64_LEN); 
+        copy_Block(left_block,res_block->left_block);
+        des_block->left_block = left_block;
+    }
+    if(res_block->right_block){
+        right_block = init_Block_LEN(right_block,BLOCK_64_LEN);
+        copy_Block(right_block,res_block->right_block);
+        des_block->right_block = right_block;
+    }
+
     if (res == true){
         return true;
     }
