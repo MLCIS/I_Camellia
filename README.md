@@ -22,6 +22,5 @@
    the most ideally case is every u_char 's time is 8.0 (2048/256),now the reality is 7.8\~8.3 (average) .. so it is like a good algorithm . 
 
    follow is main Structure ..
-	
-   ![structure ]((https://raw.githubusercontent.com/MLCIS/I_Camellia/master/structure.png)
+![structure fig ]((https://raw.githubusercontent.com/MLCIS/I_Camellia/master/structure.png)
    
