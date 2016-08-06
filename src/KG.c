@@ -121,7 +121,7 @@ KG(Stream originl_key){
 //	printf("\no :%x \n",originl_key[num]);
         
         new_d = originl_key[num];
-	new_d = LEFT_SHIFT_CYCLE_BYTE(new_d);
+		new_d = LEFT_SHIFT_CYCLE_BYTE(new_d);
 	new_d ^= old_b;
 	//if ((old_b << 7 & 0xff ) >> 7 == 1){
 	//    printf("s \n");

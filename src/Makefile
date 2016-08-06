@@ -16,6 +16,7 @@ clean:
 	find ${DIR_OBJ} -name *.o --exec rm -rf {}
 .PHONY:install
 install:
+	cp Cipher /usr/local/bin
 	cp Cipher ../bin
 	rm Cipher
 	
